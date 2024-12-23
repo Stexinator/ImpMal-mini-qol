@@ -1,0 +1,28 @@
+{
+    "id": "impmal-mini-qol",
+    "title": "ImpMal Mini QoL",
+    "version": "0.0.1",
+    "compatibility": {
+        "minimum": "12",
+        "verified": "12"
+    },
+    "relationships": {
+        "systems": [
+            {
+                "id": "impmal",
+                "type": "system",
+                "compatibility": {}
+            }
+        ]
+    },
+    "authors": [
+        {
+            "name": "Stexinator",
+            "flags": {}
+        }
+    ],
+    "esmodules": ["scripts/hooks.js"],
+    "url": "https://github.com/Stexinator/ImpMal-mini-qol",
+    "download": "https://github.com/Stexinator/ImpMal-mini-qol/releases/download/REPLACED/module.zip",
+    "manifest": "https://github.com/Stexinator/ImpMal-mini-qol/releases/latest/download/module.json"
+}
