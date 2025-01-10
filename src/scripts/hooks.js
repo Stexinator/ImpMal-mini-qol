@@ -1,7 +1,7 @@
 import AASettings from './autoanimation/aa-setting.js';
 import AutoCritHandling from './npcs/autokill.js';
 
-Hooks.once('init', function () {
+Hooks.once('ready', function () {
     if (game.users.activeGM !== game.user) return;
     AASettings.addCritAnimation();
 });
