@@ -4,7 +4,7 @@ export default class AutoCritHandling {
         if (!message.system.result.critical) return;
 
         this.killOnCrit(message);
-        // this.addCrit(message);
+        this.addCrit(message);
     }
 
     static killOnCrit(message) {
@@ -28,9 +28,21 @@ export default class AutoCritHandling {
         dom.innerHTML = message.content;
         let element = dom.querySelector('.critical');
 
+        if (!element) return;
+
         let key = element.dataset.table;
         let formula = element.dataset.formula;
 
-        let crit = await ImpMalTables.rollTable(key, formula);
+        let crit = await ImpMalTables.rollTable(key, formula, {
+            showRoll: false,
+            showResult: game.settings.get('impmal', 'impmal-miniqol-showNpcCrit')
+        });
+
+        let item = await game.impmal.utility.findId(crit.documentId);
+
+        message.system.context.targetSpeakers.map(speaker => {
+            let actor = ChatMessage.getSpeakerActor(speaker);
+            actor.createEmbeddedDocuments('Item', [item]);
+        });
     }
 }
