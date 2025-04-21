@@ -2,3 +2,4 @@
 
 - adds setting to automated animation to display crits
 - added automation to kill npcs when crit wound threshold is reached
+- automatically add crits to npcs
