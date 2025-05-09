@@ -3,6 +3,10 @@ export default class AutoCritHandling {
     static critComputed = 'critComputed';
 
     static handleCrit(message) {
+        if (actor.type != 'npc') {
+            return;
+        }
+
         if (message.system.result?.critical && !message.getFlag(this.moduleName, this.critComputed)) {
             this.addAttackCrit(message);
         }
