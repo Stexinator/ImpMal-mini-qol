@@ -3,10 +3,6 @@ export default class AutoCritHandling {
     static critComputed = 'critComputed';
 
     static handleCrit(message) {
-        if (actor.type != 'npc') {
-            return;
-        }
-
         if (message.system.result?.critical && !message.getFlag(this.moduleName, this.critComputed)) {
             this.addAttackCrit(message);
         }
@@ -38,27 +34,31 @@ export default class AutoCritHandling {
         let key = critSection.dataset.table;
         let formula = critSection.dataset.formula;
 
-        let crit = await ImpMalTables.rollTable(key, formula, {
-            showRoll: false,
-            showResult: game.settings.get('impmal', 'impmal-miniqol-showNpcCrit')
-        });
-
-        let item = await game.impmal.utility.findId(crit.documentId);
-
-        message.system.context.targetSpeakers.map(async speaker => {
+        message.system.context.targetSpeakers.forEach(async speaker => {
             let actor = ChatMessage.getSpeakerActor(speaker);
+            if (actor.type != 'npc') {
+                return;
+            }
+
+            let crit = await ImpMalTables.rollTable(key, formula, {
+                showRoll: false,
+                showResult: game.settings.get('impmal', 'impmal-miniqol-showNpcCrit')
+            });
+
+            let item = await game.impmal.utility.findId(crit.documentId);
+
             await actor.createEmbeddedDocuments('Item', [item]);
-        });
-        message.setFlag(this.moduleName, this.critComputed, true);
-
-        message.system.context.targetSpeakers.map(speaker => {
-            let actor = ChatMessage.getSpeakerActor(speaker);
-
             this.killOnCrit(actor);
         });
+        message.setFlag(this.moduleName, this.critComputed, true);
     }
 
     static async addOpposedCrit(message) {
+        let actor = fromUuidSync(message.system.targetTokenUuid).actor;
+        if (actor.type != 'npc') {
+            return;
+        }
+
         var dom = document.createElement('div');
         dom.innerHTML = message.content;
         let critSection = dom.querySelector('.critical')?.querySelector('.table-roll');
@@ -75,7 +75,6 @@ export default class AutoCritHandling {
 
         let item = await game.impmal.utility.findId(crit.documentId);
 
-        let actor = fromUuidSync(message.system.targetTokenUuid).actor;
         await actor.createEmbeddedDocuments('Item', [item]);
         message.setFlag(this.moduleName, this.critComputed, true);
 
