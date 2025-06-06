@@ -1,11 +1,10 @@
 {
     "id": "impmal-mini-qol",
     "title": "ImpMal Mini QoL",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "compatibility": {
         "minimum": "12",
-        "verified": "12",
-        "maximum": "12"
+        "verified": "13"
     },
     "relationships": {
         "systems": [
