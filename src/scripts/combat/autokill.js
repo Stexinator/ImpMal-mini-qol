@@ -18,7 +18,7 @@ export default class AutoCritHandling {
         let currentCriticals = actor.system.combat.criticals.value;
         let maxCriticals = actor.system.combat.criticals.max;
 
-        if (currentCriticals + 1 >= maxCriticals) {
+        if (currentCriticals > maxCriticals) {
             actor.toggleStatusEffect('dead', { overlay: true });
             return;
         }
