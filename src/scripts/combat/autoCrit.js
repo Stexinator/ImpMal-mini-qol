@@ -3,6 +3,8 @@ export default class AutoCritHandling {
     static critComputed = 'critComputed';
 
     static handleCrit(message) {
+        if (!game.settings.get(this.moduleName, 'autoCritKillNpcs')) return;
+
         if (message.system.result?.critical && !message.getFlag(this.moduleName, this.critComputed)) {
             this.addAttackCrit(message);
         }
@@ -42,7 +44,7 @@ export default class AutoCritHandling {
 
             let crit = await ImpMalTables.rollTable(key, formula, {
                 showRoll: false,
-                showResult: game.settings.get('impmal', 'impmal-miniqol-showNpcCrit')
+                showResult: game.settings.get(this.moduleName, 'showNpcCrit')
             });
 
             let item = await game.impmal.utility.findId(crit.documentId);
@@ -70,7 +72,7 @@ export default class AutoCritHandling {
 
         let crit = await ImpMalTables.rollTable(key, formula, {
             showRoll: false,
-            showResult: game.settings.get('impmal', 'impmal-miniqol-showNpcCrit')
+            showResult: game.settings.get(this.moduleName, 'showNpcCrit')
         });
 
         let item = await game.impmal.utility.findId(crit.documentId);
